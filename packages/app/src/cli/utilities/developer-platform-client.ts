@@ -234,9 +234,10 @@ export interface UserError {
 }
 
 interface ErrorDetail {
-  extension_id: number | string
+  extension_id?: number | string
   extension_title?: string
   specification_identifier?: string
+  [key: string]: unknown
 }
 
 export interface DeveloperPlatformClient {
