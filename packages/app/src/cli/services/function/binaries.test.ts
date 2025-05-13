@@ -323,6 +323,7 @@ describe('wasm-opt', () => {
 
 describe('trampoline', () => {
   const trampoline = trampolineBinary()
+  const escapedTrampolineVersion = trampoline.version.replace(/\./g, '\\.')
 
   test('properties are set correctly', () => {
     expect(trampoline.name).toBe('shopify-function-trampoline')
@@ -339,9 +340,10 @@ describe('trampoline', () => {
     const url = trampoline.downloadUrl('darwin', 'x64')
 
     // Then
-    expect(url).toMatch(
-      /https:\/\/github.com\/Shopify\/shopify-function-wasm-api\/releases\/download\/shopify_function_trampoline\/v1.0.0\/shopify-function-trampoline-x86_64-macos-v\d\.\d\.\d.gz/,
+    const expectedUrlRegex = new RegExp(
+      `https://github.com/Shopify/shopify-function-wasm-api/releases/download/shopify_function_trampoline/${escapedTrampolineVersion}/shopify-function-trampoline-x86_64-macos-${escapedTrampolineVersion}\.gz`,
     )
+    expect(url).toMatch(expectedUrlRegex)
   })
 
   test('downloads trampoline', async () => {
